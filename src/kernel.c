@@ -1,41 +1,43 @@
 #include "kernel.h"
 
 static void print_char(char c, uint8_t color) {
+
   static uint16_t *video = (uint16_t *)VIDEO;
   static uint16_t row = 0;
   static uint16_t column = 0;
+
   if (c == '\n') {
-    uint16_t offset = (VGA_WIDTH - column);
-    video = video + offset;
+    column = 0;
+    row++;
+    if (row >= VGA_HEIGHT) {
+      // We just printing the last line at the bottom so we don't loose the info
+      // for now
+      column = 0;
+      row--;
+    }
+    video = (uint16_t *)VIDEO + row * VGA_WIDTH + column;
     return;
   }
+
   *video = (color << 8) | c;
-  video++;
   column++;
+
   if (column == VGA_WIDTH) {
     column = 0;
     row++;
   }
-}
-
-size_t strlen(const char *s) {
-  size_t len = 0;
-  while ((*s++)) {
-    len++;
+  if (row >= VGA_HEIGHT) {
+    column = 0;
+    row--;
   }
-
-  return len;
+  video = (uint16_t *)VIDEO + row * VGA_WIDTH + column;
 }
 
 void print_string(char *s, uint8_t color) {
-  size_t len = strlen(s);
-  for (size_t i = 0; i < len; i++) {
-    print_char(s[i], color);
+  int c;
+  while ((c = *s++) != '\0') {
+    print_char(c, color);
   }
-  // char c;
-  // while ((c = *s++) != '\0') {
-  //   print_char(c, color);
-  // }
 }
 
 void clear_screen() {
@@ -43,14 +45,20 @@ void clear_screen() {
   for (size_t i = 0; i < VGA_HEIGHT; i++) {
     for (size_t j = 0; j < VGA_WIDTH; j++) {
       uint16_t offset = i * VGA_WIDTH + j;
-      *(video + offset) = (0 << 8) | 'A';
+      *(video + offset) = (0 << 8) | ' ';
     }
   }
 }
 
 void kernel_main(void) {
   clear_screen();
-  print_string("Hello World!\0", 15);
+  print_string("Hello World!", 15);
   print_string("\n\0", 15);
-  print_string("Hello Kernel!\0", 15);
+  print_string("Hello Kernel!", 15);
+  print_string("\n\0", 15);
+  print_string("Hello Kernel!\n", 15);
+  for (int i = 0; i < 22; i++) {
+    print_string("Hello Kernel!CCC\n", 15);
+  }
+  print_string("Hello Stelios!", 15);
 }

@@ -5,8 +5,8 @@
 typedef struct idt_desc{
 	uint16_t offset_1; // Offset bits 0-15
 	uint16_t selector; // selector that is GDT
-	uint16_t zero; // unsued
-	uint16_t type_attr; // Descriptor type and attributes
+	uint8_t zero; // unsued
+	uint8_t type_attr; // Descriptor type and attributes
 	uint16_t offset_2; // Offset bits 16-31
 
 
@@ -15,7 +15,9 @@ typedef struct idt_desc{
 
 typedef struct idtr_desc{
 	uint16_t limit; // size of descriptor table -1
-	uint32_t base; // Base address of the start of IDT
-}__attribute__((packed)) idt_descr_t;
+	idt_desc_t *base; // Base address of the start of IDT
+}__attribute__((packed)) idtr_desc_t;
+
+extern void idt_load(void *ptr);
 
 #endif // IDT_H

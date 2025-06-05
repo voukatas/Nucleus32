@@ -53,7 +53,7 @@ void clear_screen() {
 void kernel_main(void) {
   clear_screen();
   print_string("Hello World!", 15);
-  print_string("\n\0", 15);
+  print_string("\n", 15);
   print_string("Hello Kernel!", 15);
   print_string("\n\0", 15);
   print_string("Hello Kernel!\n", 15);

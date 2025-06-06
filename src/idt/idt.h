@@ -18,6 +18,7 @@ typedef struct idtr_desc{
 	idt_desc_t *base; // Base address of the start of IDT
 }__attribute__((packed)) idtr_desc_t;
 
-extern void idt_load(void *ptr);
+void idt_load(idtr_desc_t *ptr);
+void idt_init();
 
 #endif // IDT_H

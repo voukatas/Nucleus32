@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "idt/idt.h"
 
 static void print_char(char c, uint8_t color) {
 
@@ -51,14 +52,15 @@ void clear_screen() {
 }
 
 void kernel_main(void) {
+  idt_init();
   clear_screen();
   print_string("Hello World!", 15);
-  print_string("\n", 15);
-  print_string("Hello Kernel!", 15);
-  print_string("\n\0", 15);
-  print_string("Hello Kernel!\n", 15);
-  for (int i = 0; i < 22; i++) {
-    print_string("Hello Kernel!CCC\n", 15);
-  }
-  print_string("Hello Stelios!", 15);
+  // print_string("\n", 15);
+  // print_string("Hello Kernel!", 15);
+  // print_string("\n\0", 15);
+  // print_string("Hello Kernel!\n", 15);
+  // for (int i = 0; i < 22; i++) {
+  //   print_string("Hello Kernel!CCC\n", 15);
+  // }
+  // print_string("Hello Stelios!", 15);
 }

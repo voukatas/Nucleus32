@@ -19,12 +19,6 @@ Clone the repository:
 ```bash
 git clone https://github.com/yourusername/Nucleus32.git
 cd Nucleus32
-nasm -f bin boot.asm -o boot.bin
-qemu-system-x86_64 -hda ./boot.bin
-```
-
-### Debugging
-```bash
-# Check the disassembled code
-ndisasm boot.bin
+make
+make run
 ```

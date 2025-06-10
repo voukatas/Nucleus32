@@ -1,5 +1,6 @@
 #include "kernel.h"
 #include "idt/idt.h"
+#include "io/io.h"
 
 static void print_char(char c, uint8_t color) {
 
@@ -52,9 +53,10 @@ void clear_screen() {
 }
 
 void kernel_main(void) {
-  idt_init();
   clear_screen();
+  idt_init();
   print_string("Hello World!", 15);
+  outb(0x60, 0xfa);
   // print_string("\n", 15);
   // print_string("Hello Kernel!", 15);
   // print_string("\n\0", 15);

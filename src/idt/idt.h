@@ -16,6 +16,7 @@ typedef struct idt_desc{
 typedef struct idtr_desc{
 	uint16_t limit; // size of descriptor table -1
 	idt_desc_t *base; // Base address of the start of IDT
+	//uint16_t base; // Base address of the start of IDT
 }__attribute__((packed)) idtr_desc_t;
 
 void idt_load(idtr_desc_t *ptr);

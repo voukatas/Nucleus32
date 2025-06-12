@@ -56,13 +56,5 @@ void kernel_main(void) {
   clear_screen();
   idt_init();
   print_string("Hello World!", 15);
-  outb(0x60, 0xfa);
-  // print_string("\n", 15);
-  // print_string("Hello Kernel!", 15);
-  // print_string("\n\0", 15);
-  // print_string("Hello Kernel!\n", 15);
-  // for (int i = 0; i < 22; i++) {
-  //   print_string("Hello Kernel!CCC\n", 15);
-  // }
-  // print_string("Hello Stelios!", 15);
+  // outb(0x60, 0xfa);
 }

@@ -1,11 +1,19 @@
 #include "idt.h"
 #include "../config.h"
+#include "../io/io.h"
 #include "../kernel.h"
 #include "../memory/memory.h"
 #include <stdint.h>
 
 idt_desc_t idt_descriptors[NUCLEUS32_TOTAL_INTERRUPTS];
 idtr_desc_t idtr_descriptor;
+
+void int21h_handler() {
+  print_string("Key pressed!!!\n", 15);
+  outb(0x20, 0x20);
+}
+
+void no_interrupt_handler() { outb(0x20, 0x20); }
 
 void idt_zero() { print_string("Hello, divide by zero exception\n", 15); }
 
@@ -29,7 +37,12 @@ void idt_init() {
   idtr_descriptor.base = idt_descriptors;
   // idtr_descriptor.base = (uint16_t)(uintptr_t)idt_descriptors;
 
+  // to prevent crash we need to assign a no interrupt to all values
+  for (int i = 0; i < NUCLEUS32_TOTAL_INTERRUPTS; i++) {
+    idt_set(i, no_interrupt);
+  }
   idt_set(0, idt_zero);
+  idt_set(0x21, int21h); // test the keyboard interrupt
 
   // load interrupt descriptor table
   idt_load(&idtr_descriptor);

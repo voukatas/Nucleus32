@@ -21,5 +21,7 @@ typedef struct idtr_desc{
 
 void idt_load(idtr_desc_t *ptr);
 void idt_init();
+void int21h();
+void no_interrupt();
 
 #endif // IDT_H

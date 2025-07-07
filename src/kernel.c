@@ -1,6 +1,7 @@
 #include "kernel.h"
 #include "idt/idt.h"
 #include "io/io.h"
+#include "memory/heap/kheap.h"
 
 static void print_char(char c, uint8_t color) {
 
@@ -54,7 +55,22 @@ void clear_screen() {
 
 void kernel_main(void) {
   clear_screen();
+
+  // init heap
+  kheap_init();
+  // init idt
   idt_init();
+
   print_string("Hello World!", 15);
-  // outb(0x60, 0xfa);
+
+  // test malloc/free
+  void *ptr1 = kmalloc(50);
+  void *ptr2 = kmalloc(5000);
+  void *ptr3 = kmalloc(5600);
+  kfree(ptr1);
+  void *ptr4 = kmalloc(50);
+
+  if (ptr1 || ptr2 || ptr3 || ptr4) {
+  }
+  // end testing
 }

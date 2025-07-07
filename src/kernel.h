@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "memory/heap/kheap.h"
 
 #define VIDEO 0xB8000
 

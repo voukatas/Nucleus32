@@ -61,6 +61,9 @@ void kernel_main(void) {
   // init idt
   idt_init();
 
+  // enable interrupts again
+  enable_interrupts();
+
   print_string("Hello World!", 15);
 
   // test malloc/free

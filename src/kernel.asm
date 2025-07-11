@@ -34,9 +34,6 @@ _start:
 
 	; End of remap
 
-	; Enable interrupts
-	sti
-
 	call kernel_main
 
 	jmp $

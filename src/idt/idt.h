@@ -23,5 +23,7 @@ void idt_load(idtr_desc_t *ptr);
 void idt_init();
 void int21h();
 void no_interrupt();
+void enable_interrupts();
+void disable_interrupts();
 
 #endif // IDT_H

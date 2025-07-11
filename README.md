@@ -17,7 +17,7 @@ To build and run Nucleus32, you will need:
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/Nucleus32.git
+git clone https://github.com/voukatas/Nucleus32.git
 cd Nucleus32
 make
 make run

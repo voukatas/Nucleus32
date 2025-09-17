@@ -2,6 +2,7 @@
 #include "idt/idt.h"
 #include "io/io.h"
 #include "memory/heap/kheap.h"
+#include "memory/paging/paging.h"
 
 static void print_char(char c, uint8_t color) {
 
@@ -53,6 +54,7 @@ void clear_screen() {
   }
 }
 
+paging_4gb_chunk_t *kernel_chunk = NULL;
 void kernel_main(void) {
   clear_screen();
 
@@ -60,6 +62,15 @@ void kernel_main(void) {
   kheap_init();
   // init idt
   idt_init();
+
+  // setup paging
+  kernel_chunk = paging_new_4gb(PAGING_IS_WRITEABLE | PAGING_IS_PRESENT |
+                                PAGING_ACCESS_FROM_ALL);
+  // switch to kernel paging chunk
+  paging_switch(paging_4gb_chunk_get_directory(kernel_chunk));
+
+  // enable paging
+  enable_paging();
 
   // enable interrupts again
   enable_interrupts();

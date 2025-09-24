@@ -3,6 +3,7 @@
 #include "io/io.h"
 #include "memory/heap/kheap.h"
 #include "memory/paging/paging.h"
+#include <stdint.h>
 
 static void print_char(char c, uint8_t color) {
 
@@ -68,9 +69,23 @@ void kernel_main(void) {
                                 PAGING_ACCESS_FROM_ALL);
   // switch to kernel paging chunk
   paging_switch(paging_4gb_chunk_get_directory(kernel_chunk));
+  // do any paging mapping you like here
+
+  // test paging
+  // char *ptr = kzalloc(4096);
+  // paging_set(paging_4gb_chunk_get_directory(kernel_chunk), (void *)0x1000,
+  //            (uint32_t)(uintptr_t)ptr | PAGING_ACCESS_FROM_ALL |
+  //                PAGING_IS_PRESENT | PAGING_IS_WRITEABLE);
 
   // enable paging
   enable_paging();
+
+  // test paging
+  // char *ptr0 = (char *)0x1000;
+  // ptr0[0] = 'a';
+  // ptr0[1] = 'b';
+  // ptr0[2] = '\0'; // redundant
+  // print_string(ptr0, 15);
 
   // enable interrupts again
   enable_interrupts();

@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "disk/disk.h"
 #include "idt/idt.h"
 #include "io/io.h"
 #include "memory/heap/kheap.h"
@@ -87,6 +88,12 @@ void kernel_main(void) {
   // ptr0[2] = '\0'; // redundant
   // print_string(ptr0, 15);
 
+  // test disk read
+  char buf[512];
+  disk_read_sector(0, 1, buf);
+  //
+  //
+  //
   // enable interrupts again
   enable_interrupts();
 

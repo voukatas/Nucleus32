@@ -2,7 +2,7 @@ export PREFIX := $(HOME)/opt/cross
 export TARGET := i686-elf
 export PATH := $(PREFIX)/bin:$(PATH)
 
-FILES=build/kernel.asm.o build/kernel.o build/idt/idt.asm.o build/idt/idt.o build/memory/memory.o build/io/io.asm.o build/memory/heap/heap.o build/memory/heap/kheap.o build/memory/paging/paging.o build/memory/paging/paging.asm.o
+FILES=build/kernel.asm.o build/kernel.o build/idt/idt.asm.o build/idt/idt.o build/memory/memory.o build/io/io.asm.o build/memory/heap/heap.o build/memory/heap/kheap.o build/memory/paging/paging.o build/memory/paging/paging.asm.o build/disk/disk.o
 INCLUDES= -I ./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc -Wextra 
 
@@ -54,6 +54,9 @@ build/io/io.asm.o: src/io/io.asm
 
 build/memory/paging/paging.asm.o: src/memory/paging/paging.asm
 	nasm -f elf -g src/memory/paging/paging.asm -o build/memory/paging/paging.asm.o
+
+build/disk/disk.o: src/disk/disk.c
+	i686-elf-gcc $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/disk/disk.c -o ./build/disk/disk.o
 
 clean:
 	rm -rf bin/boot.bin

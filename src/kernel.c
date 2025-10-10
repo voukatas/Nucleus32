@@ -62,6 +62,10 @@ void kernel_main(void) {
 
   // init heap
   kheap_init();
+
+  // search and init disks
+  disk_search_and_init();
+
   // init idt
   idt_init();
 
@@ -89,8 +93,8 @@ void kernel_main(void) {
   // print_string(ptr0, 15);
 
   // test disk read
-  char buf[512];
-  disk_read_sector(0, 1, buf);
+  // char buf[512];
+  // disk_read_sector(0, 1, buf);
   //
   //
   //

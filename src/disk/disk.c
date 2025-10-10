@@ -1,4 +1,10 @@
+#include "disk.h"
+#include "../config.h"
 #include "../io/io.h"
+#include "../memory/memory.h"
+#include "../status.h"
+
+disk_t disk;
 
 int disk_read_sector(int lba, int total, void *buf) {
 
@@ -25,4 +31,27 @@ int disk_read_sector(int lba, int total, void *buf) {
   }
 
   return 0;
+}
+
+// accepts only index 0
+void disk_search_and_init() {
+  memset(&disk, 0, sizeof(disk));
+  disk.type = NUCLEUS32_DISK_TYPE_REAL;
+  disk.sector_size = NUCLEUS32_SECTOR_SIZE;
+}
+
+disk_t *disk_get(int index) {
+  if (index != 0) {
+    return 0;
+  }
+
+  return &disk;
+}
+
+int disk_read_block(disk_t *idisk, unsigned int lba, int total, void *buf) {
+  if (idisk != &disk) {
+    return -EIO;
+  }
+
+  return disk_read_sector(lba, total, buf);
 }
